@@ -26,9 +26,9 @@ jobs:
           java-version: "21"
 
       - name: Configurar Android SDK
-  uses: android-actions/setup-android@v4
-  with:
-    packages: platform-tools
+        uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools
 
       - name: Instalar dependências
         run: npm install
