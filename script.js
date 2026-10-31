@@ -1264,7 +1264,10 @@ audio.addEventListener("loadedmetadata", () => {
   updatePositionState();
 });
 audio.addEventListener("durationchange", updateProgress);
-audio.addEventListener("timeupdate", updateProgress);
+audio.addEventListener("timeupdate", () => {
+  updateProgress();
+  updatePositionState();
+});
 
 /* ---------- Media Session (notificação / tela de bloqueio) ---------- */
 function updateMediaSession() {
