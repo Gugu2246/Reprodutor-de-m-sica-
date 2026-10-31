@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080808">
+  <title>Música</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fontes carregam em segundo plano: a página aparece na hora, mesmo com internet lenta -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link id="iconsCss" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="style.css?v=7">
+</head>
+
+<body data-page="home">
+  <audio id="audio" preload="metadata"></audio>
+  <input type="file" id="fileInput" accept="audio/*" multiple hidden>
+  <input type="file" id="lrcInput" accept=".lrc,.txt,text/plain" hidden>
+
+  <!-- Barra superior (aparece em Search e Library) -->
+  <header class="topbar">
+    <button class="profile" aria-label="Perfil">
+      <span class="material-symbols-rounded">person</span>
+    </button>
+    <div class="top-actions">
+      <button class="top-button" id="themeBtn" aria-label="Alternar tema"></button>
+      <button class="top-button" id="addBtn" aria-label="Adicionar músicas">
+        <span class="material-symbols-rounded">add</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ YOUR MIX ============ -->
+    <section class="page active" id="homePage">
+      <p class="eyebrow home-eyebrow">SUA MÚSICA, SEU UNIVERSO</p>
+
+      <div class="hero">
+        <div class="hero-copy">
+          <h1>Your<br>Mix</h1>
+          <p id="heroSubtitle">Sua coleção musical</p>
+        </div>
+        <button class="hero-play" id="heroPlay" aria-label="Tocar ou pausar"></button>
+      </div>
+
+      <div class="artwork">
+        <button class="art-main" id="artMain" aria-label="Tocar música"></button>
+        <button class="art-small art-left" id="artSmall1" aria-label="Tocar música"></button>
+        <button class="art-small art-right" id="artSmall2" aria-label="Tocar música"></button>
+      </div>
+
+      <div class="segmented" id="mixMode" role="group" aria-label="Critério do Your Mix">
+        <button data-mode="plays">
+          <span class="material-symbols-rounded">check</span>Mais tocadas
+        </button>
+        <button data-mode="recent">
+          <span class="material-symbols-rounded">check</span>Recentes
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ SEARCH ============ -->
+    <section class="page" id="searchPage">
+      <div class="page-heading">
+        <p class="eyebrow">DESCUBRA SUAS MÚSICAS</p>
+        <h1>Search<span class="accent">.</span></h1>
+        <p>Pesquise na sua coleção.</p>
+      </div>
+
+      <label class="search-box">
+        <span class="material-symbols-rounded">search</span>
+        <input id="searchInput" type="search" placeholder="Pesquisar músicas..." autocomplete="off">
+      </label>
+
+      <h2 class="page-section-title">Suas músicas</h2>
+      <div class="song-list" id="searchSongList"></div>
+
+      <h2 class="page-section-title">
+        Online
+        <span class="online-badge">Jamendo · música livre</span>
+      </h2>
+      <div id="onlineBox"></div>
+    </section>
+
+    <!-- ============ LIBRARY ============ -->
+    <section class="page" id="libraryPage">
+      <div class="page-heading">
+        <p class="eyebrow">SUA COLEÇÃO</p>
+        <h1>Library<span class="accent">.</span></h1>
+        <p id="libraryCount">0 músicas adicionadas</p>
+      </div>
+
+      <div class="filters" id="filters"></div>
+      <div class="playlist-bar" id="playlistBar" hidden></div>
+
+      <div class="song-list" id="songList"></div>
+
+      <button class="library-add-button" id="libraryAdd">
+        <span class="material-symbols-rounded">add</span>
+        Adicionar músicas
+      </button>
+    </section>
+  </main>
+
+  <!-- Mini player global -->
+  <div class="now-playing" id="nowPlaying" hidden>
+    <div class="now-cover" id="nowCover"></div>
+    <div class="now-info">
+      <strong id="nowTitle">Nenhuma música</strong>
+      <span id="nowArtist">Adicione músicas na Library</span>
+    </div>
+    <button class="now-play" id="nowPlay" aria-label="Tocar ou pausar"></button>
+    <div class="now-progress"><i id="miniProgress"></i></div>
+  </div>
+
+  <!-- Navegação (Material 3 Navigation Bar) -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-target="home">
+      <span class="nav-icon"><span class="material-symbols-rounded">person</span></span>
+      <small>Your Mix</small>
+    </button>
+    <button class="nav-item" data-target="search">
+      <span class="nav-icon"><span class="material-symbols-rounded">search</span></span>
+      <small>Search</small>
+    </button>
+    <button class="nav-item" data-target="library">
+      <span class="nav-icon"><span class="material-symbols-rounded">library_music</span></span>
+      <small>Library</small>
+    </button>
+  </nav>
+
+  <!-- ============ PLAYER COMPLETO ============ -->
+  <div class="full-player" id="fullPlayer" aria-hidden="true">
+    <div class="fp-top">
+      <button class="icon-btn" id="fpClose" aria-label="Fechar">
+        <span class="material-symbols-rounded">keyboard_arrow_down</span>
+      </button>
+      <span class="fp-top-title">Tocando agora</span>
+      <div class="fp-top-actions">
+        <button class="icon-btn" id="fpLyricsBtn" aria-label="Letra">
+          <span class="material-symbols-rounded">lyrics</span>
+        </button>
+        <button class="icon-btn" id="fpMenu" aria-label="Mais opções">
+          <span class="material-symbols-rounded">more_vert</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="fp-stage" id="fpStage">
+      <div class="fp-cover" id="fpCover"></div>
+      <div class="fp-lyrics" id="fpLyrics"></div>
+    </div>
+
+    <div class="fp-meta">
+      <div class="fp-meta-text">
+        <h2 id="fpTitle">—</h2>
+        <p id="fpArtist">—</p>
+      </div>
+      <button class="icon-btn fp-fav" id="fpFav" aria-label="Favoritar"></button>
+    </div>
+
+    <div class="fp-progress">
+      <input type="range" class="seek" id="seek" min="0" max="1000" value="0" step="1" aria-label="Progresso">
+      <div class="fp-times"><span id="curTime">0:00</span><span id="durTime">0:00</span></div>
+    </div>
+
+    <div class="fp-controls">
+      <button class="icon-btn" id="fpShuffle" aria-label="Aleatório">
+        <span class="material-symbols-rounded">shuffle</span>
+      </button>
+      <button class="icon-btn big" id="fpPrev" aria-label="Anterior">
+        <span class="material-symbols-rounded">skip_previous</span>
+      </button>
+      <button class="fp-play" id="fpPlay" aria-label="Tocar ou pausar"></button>
+      <button class="icon-btn big" id="fpNext" aria-label="Próxima">
+        <span class="material-symbols-rounded">skip_next</span>
+      </button>
+      <button class="icon-btn" id="fpRepeat" aria-label="Repetir">
+        <span class="material-symbols-rounded">repeat</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+  <script src="script.js?v=7"></script>
+</body>
+</html>
