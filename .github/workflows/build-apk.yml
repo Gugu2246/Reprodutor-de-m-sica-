@@ -25,10 +25,11 @@ jobs:
           distribution: temurin
           java-version: "21"
 
+      
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v4
         with:
-          packages: platform-tools
+          packages: ''
 
       - name: Instalar dependências
         run: npm install
