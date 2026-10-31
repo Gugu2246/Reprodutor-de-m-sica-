@@ -1106,7 +1106,6 @@ $("heroPlay").addEventListener("click", () => {
   if (!current() && homeMain) playSong(homeMain.id, allIds());
   else togglePlay();
 });
-
 function updatePlayButtons() {
   const playing = !audio.paused && currentId !== null;
   const icon = playing ? "pause" : "play_arrow";
@@ -1117,7 +1116,12 @@ function updatePlayButtons() {
 
   $("heroPlay").classList.toggle("playing", playing);
   $("fpPlay").classList.toggle("playing", playing);
+
+  // Animação das capas durante a reprodução
+  $("nowCover").classList.toggle("is-playing", playing);
+  $("fpCover").classList.toggle("is-playing", playing);
 }
+
 
 /* ==========================================================
    Reprodução

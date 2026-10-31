@@ -144,10 +144,13 @@ button {
   justify-content: space-between;
 }
 
+body[data-page="home"] .topbar,
 body[data-page="search"] .topbar,
-body[data-page="library"] .topbar {
+body[data-page="library"] .topbar,
+body[data-page="settings"] .topbar {
   display: flex;
 }
+
 
 .profile,
 .top-button {
@@ -1392,4 +1395,110 @@ textarea,
   -webkit-user-select: text !important;
   user-select: text !important;
   -webkit-touch-callout: default !important;
+}
+/* Animação suave das capas — sem rotação */
+.now-cover img,
+.fp-cover img {
+  transition: transform .45s cubic-bezier(.2, 0, 0, 1);
+}
+
+.now-cover.is-playing img,
+.fp-cover.is-playing img {
+  animation: coverBreath 3s ease-in-out infinite;
+}
+
+@keyframes coverBreath {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+/* Transição ao trocar de música */
+.now-cover.pop {
+  animation: coverPop .45s ease;
+}
+
+@keyframes coverPop {
+  from {
+    transform: scale(.85);
+    opacity: .55;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Respeita a preferência por menos animações */
+@media (prefers-reduced-motion: reduce) {
+  .now-cover img,
+  .fp-cover img {
+    animation: none !important;
+    transition: none !important;
+  }
+}/* =================================
+   ANIMAÇÕES EXTRAS
+   ================================= */
+
+/* Botões com resposta suave ao toque */
+button {
+  transition:
+    transform .18s ease,
+    background-color .25s ease;
+}
+
+button:active {
+  transform: scale(.96);
+}
+
+/* Entrada suave dos cards */
+.song-item {
+  animation: songEntrance .35s var(--ease) both;
+}
+
+@keyframes songEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Zoom delicado na capa durante a reprodução */
+.now-cover img,
+.fp-cover img {
+  transition: transform .6s var(--ease);
+}
+
+.now-cover.is-playing img,
+.fp-cover.is-playing img {
+  animation: coverBreath 4s ease-in-out infinite;
+}
+
+@keyframes coverBreath {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+/* Acessibilidade: respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }

@@ -1,6 +1,6 @@
 // Service worker: deixa o app abrir sem internet.
 // Arquivos do app: tenta a rede primeiro (pega atualização) e cai no cache se estiver offline.
-const CACHE = "musica-v9";
+const CACHE = "musica-v14";
 const CORE = [
   "./",
   "index.html",

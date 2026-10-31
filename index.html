@@ -21,10 +21,8 @@
   <input type="file" id="lrcInput" accept=".lrc,.txt,text/plain" hidden>
 
   <!-- Barra superior (aparece em Search e Library) -->
+    
   <header class="topbar">
-    <button class="profile" aria-label="Perfil">
-      <span class="material-symbols-rounded">person</span>
-    </button>
     <div class="top-actions">
       <button class="top-button" id="themeBtn" aria-label="Alternar tema"></button>
       <button class="top-button" id="addBtn" aria-label="Adicionar músicas">
@@ -32,7 +30,16 @@
       </button>
     </div>
   </header>
+<section class="page" id="settingsPage">
+  <div class="page-heading settings-heading">
+    <button class="icon-btn" id="settingsBack" aria-label="Voltar">
+      <span class="material-symbols-rounded">arrow_back</span>
+    </button>
 
+    <h1>Configurações<span class="accent">.</span></h1>
+    <p>Personalize seu aplicativo.</p>
+  </div>
+</section>
   <main>
     <!-- ============ YOUR MIX ============ -->
     <section class="page active" id="homePage">
