@@ -1,8 +1,5 @@
 {
-  "appId": "com.gugu2246.reprodutordemusica",
-  "appName": "Música",
-  "webDir": "www",
-  "server": {
-    "androidScheme": "https"
-  }
+  "appId": "com.reprodutormusica.app",
+  "appName": "Reprodutor de Música",
+  "webDir": "www"
 }
